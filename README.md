@@ -1,47 +1,134 @@
-# Getting Started with Create React App
+# Drag-n-Drop User Selection (TypeScript)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, interactive drag-and-drop application built with React, TypeScript, and @dnd-kit. Select users by dragging them between two lists, save your selection layout, and export it as JSON.
+
+## Features
+
+- **Drag and Drop Interface**: Intuitive drag-and-drop functionality powered by @dnd-kit
+- **Two-Panel Layout**: Move users between "Available Users" and "Selected Users"
+- **Visual Feedback**: Smooth animations and visual cues during drag operations
+- **Save Layout**: Export your selected users as a JSON configuration
+- **Reset Functionality**: Quickly clear all selections and start over
+- **Fully Typed**: Built with TypeScript for type safety and better developer experience
+- **Responsive Design**: Styled with Tailwind CSS for a modern, mobile-friendly interface
+
+## Tech Stack
+
+- **React 19** - UI framework
+- **TypeScript 4.9** - Type-safe development
+- **@dnd-kit/core** - Drag and drop functionality
+- **@dnd-kit/sortable** - Keyboard navigation support
+- **Tailwind CSS 3.4** - Utility-first CSS framework
+- **JSONPlaceholder API** - Sample user data
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── DragDropContainer.tsx  # Main container with drag logic
+│   ├── DroppableArea.tsx      # Droppable zone component
+│   └── UserCard.tsx           # Draggable user card
+├── types/
+│   └── User.ts                # Shared TypeScript interfaces
+└── App.tsx                    # Root component
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd dnd-ts
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000)
 
 ## Available Scripts
 
-In the project directory, you can run:
-
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode. The page will reload when you make changes.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Builds the app for production to the `build` folder. The build is optimized and minified.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to Use
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Drag Users**: Click and drag any user card from the "Available Users" panel
+2. **Drop to Select**: Drop the card into the "Selected Users" panel to add them to your selection
+3. **Move Back**: Drag users from "Selected Users" back to "Available Users" to deselect them
+4. **Save Layout**: Click the "Save Layout" button to generate a JSON export of your selected users
+5. **Reset**: Click "Reset" to move all users back to the "Available Users" panel
 
-### `npm run eject`
+## TypeScript Interfaces
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### User Interface
+```typescript
+interface User {
+  id: number;
+  name: string;
+  email?: string;
+  username?: string;
+}
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Customization
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Styling
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The project uses Tailwind CSS. Modify the styles in component files or update the `tailwind.config.js` for global theme changes.
 
-## Learn More
+### Data Source
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Currently fetches users from JSONPlaceholder API. To use your own data source, modify the `useEffect` hook in `DragDropContainer.tsx`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-# Drag-n-Drop-Your-Selection-ts
+```typescript
+useEffect(() => {
+  fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then((users: User[]) => {
+      setAvailableUsers(users);
+      setLoading(false);
+    })
+    .catch(error => {
+      console.error('Error fetching users:', error);
+      setLoading(false);
+    });
+}, []);
+```
+
+## Browser Support
+
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Acknowledgments
+
+- Built with [Create React App](https://create-react-app.dev/)
+- Drag and drop powered by [@dnd-kit](https://dndkit.com/)
+- Sample data from [JSONPlaceholder](https://jsonplaceholder.typicode.com/)
