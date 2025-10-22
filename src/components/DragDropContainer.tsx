@@ -146,6 +146,14 @@ const DragDropContainer: React.FC = () => {
             Save Layout
           </button>
           </div>
+            {savedLayout && (
+                <div className="mt-12">
+                    <h3 className="text-lg font-semibold mb-2 text-gray-800">Saved Layout:</h3>
+                    <pre className="bg-gray-100 border border-gray-300 rounded-lg p-4 overflow-auto text-sm text-left">
+                        <code>{savedLayout}</code>
+                    </pre>
+                </div>
+            )}
       </div>
 
       <DragOverlay>
