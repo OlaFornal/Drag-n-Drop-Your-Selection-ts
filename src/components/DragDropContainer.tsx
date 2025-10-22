@@ -22,6 +22,7 @@ const DragDropContainer: React.FC = () => {
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [savedLayout, setSavedLayout] = useState<string | null>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -42,6 +43,23 @@ const DragDropContainer: React.FC = () => {
         setLoading(false);
       });
   }, []);
+
+  const handleSaveLayout = () => {
+    const layout = {
+      selectedUsers: selectedUsers.map(user => ({
+        id: user.id,
+        name: user.name
+      }))
+    };
+    const jsonString = JSON.stringify(layout, null, 2);
+    console.log(jsonString);
+    setSavedLayout(jsonString);
+  };
+
+  const handleReset = () => {
+    setAvailableUsers(prev => [...prev, ...selectedUsers]);
+    setSelectedUsers([]);
+  };
 
   const handleDragStart = (event: DragStartEvent): void => {
     setActiveId(event.active.id as string);
@@ -99,7 +117,7 @@ const DragDropContainer: React.FC = () => {
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mt-6 mx-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <DroppableArea
             id="available-users"
@@ -114,6 +132,20 @@ const DragDropContainer: React.FC = () => {
             className="bg-green-50 border-green-200"
           />
         </div>
+         <div className="mt-12 flex justify-end gap-4">
+          <button
+            onClick={handleReset}
+            className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            Reset
+          </button>
+          <button
+            onClick={handleSaveLayout}
+            className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 shadow-md hover:shadow-lg"
+          >
+            Save Layout
+          </button>
+          </div>
       </div>
 
       <DragOverlay>
