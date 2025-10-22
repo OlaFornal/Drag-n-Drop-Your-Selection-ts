@@ -59,6 +59,7 @@ const DragDropContainer: React.FC = () => {
   const handleReset = () => {
     setAvailableUsers(prev => [...prev, ...selectedUsers]);
     setSelectedUsers([]);
+    setSavedLayout(null);
   };
 
   const handleDragStart = (event: DragStartEvent): void => {
